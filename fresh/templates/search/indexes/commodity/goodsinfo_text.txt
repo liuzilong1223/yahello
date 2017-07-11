@@ -1,0 +1,3 @@
+{{object.gtitle}}
+{{object.gconcise}}
+{{object.gcontent}}
