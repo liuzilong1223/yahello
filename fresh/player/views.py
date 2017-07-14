@@ -112,3 +112,9 @@ def site(request):
         player.save()
     context = {'title': '收货地址', 'player': player}
     return render(request, 'player/site.html', context)
+
+def islogin(request):
+    result = 0
+    if request.session.has_key('uid'):
+        result = 1
+    return JsonResponse({'islogin':result})

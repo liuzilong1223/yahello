@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from models import *
 from django.core.paginator import Paginator
-
+from haystack.generic_views import SearchView
 
 # Create your views here.
 
@@ -58,7 +58,6 @@ def detail(request, id):
     response = render(request, 'commodity/detail.html', context)
     # 获取cookies的键，（若该键不存在则默认值设为1），将其值拆分为数组，以逗号分隔
     record = request.COOKIES.get('record', '').split(',')
-    print record
     if id in record:
         record.remove(id)
     record.insert(0, id)
@@ -67,3 +66,21 @@ def detail(request, id):
         # 存储cookie，使用都好拼接成字符串，过期时间为7天
     response.set_cookie('record', ','.join(record), max_age=60 * 60 * 24 * 7)
     return response
+
+class MySearchView(SearchView):
+    def get_context_data(self, *args, **kwargs):
+        context = super(MySearchView, self).get_context_data(*args, **kwargs)
+        context['hshow']='1'
+        page_range = []
+        page = context.get('page_obj')
+        if page.paginator.num_pages <= 5:
+            page_range = page.paginator.page_range
+        elif page.number <= 2:
+            page_range = range(1,6)
+        elif page.number >= page.paginator.num_pages -1:
+            page_range = range(page.paginator.num_pages - 4, page.paginator.num_pages + 1)
+        else:
+            page_range = range(page.number - 2, page.number + 3)
+        context['page_range'] = page_range
+        return context
+

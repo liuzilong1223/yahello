@@ -5,5 +5,7 @@ class playermiddleware:
                                 '/player/player_name/',
                                 '/player/login/',
                                 '/player/login_yz/',
-                                '/player/login_out/',]:
+                                '/player/login_out/',
+                                '/player/islogin/',
+                                ]:
             request.session['player_path'] = request.get_full_path()

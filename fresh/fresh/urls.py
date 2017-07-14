@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^player/', include('player.urls')),
     url('^', include('commodity.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
+    # url(r'^search/', include('haystack.urls')),
+    url(r'^cart/', include('cart.urls')),
 ]

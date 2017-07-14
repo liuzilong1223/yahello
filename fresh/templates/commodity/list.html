@@ -1,6 +1,29 @@
 {%extends 'commodity/base.html'%}
 
+{%block head%}
 
+	<script>
+		function add_cart(gid) {
+			$.get('/player/islogin/', function (data) {
+			    if(data.islogin){
+					$.get('/cart/add/', {'gid':gid}, function (data) {
+						if(data.isadd){
+						    alert('添加成功');
+						}
+						else{
+						    alert('添加失败');
+						}
+                    });
+				}
+				else{
+			        location.href = '/player/login/'
+				}
+            });
+        }
+
+	</script>
+
+{%endblock head%}
 {%block detail%}
 	<div class="breadcrumb">
 		<a href="#">全部分类</a>
@@ -26,7 +49,7 @@
 					<div class="operate">
 						<span class="prize">￥{{i.gprice}}</span>
 						<span class="unit">{{i.gprice}}/{{gunit}}</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
+						<a href="javascript:add_cart({{i.id}});" class="add_goods" title="加入购物车"></a>
 					</div>
 				</li>
 			{%endfor%}
@@ -39,6 +62,7 @@
 			{%endif%}
 
 			{%if page.paginator.num_pages <= 5%}
+
 				{%for index in page.paginator.page_range%}
 					{%if index == page.number%}
 						<a href="#" class="active">{{index}}</a>
@@ -48,14 +72,14 @@
 				{%endfor%}
 			{%else%}
 				{%if page.number == 1%}
-					<a href="#">1</a>
+					<a href="#" class="active">1</a>
 					<a href="/list{{type.id}}_2_{{pid}}/?desc={{desc}}">2</a>
 					<a href="/list{{type.id}}_3_{{pid}}/?desc={{desc}}">3</a>
 					<a href="/list{{type.id}}_4_{{pid}}/?desc={{desc}}">4</a>
 					<a href="/list{{type.id}}_5_{{pid}}/?desc={{desc}}">5</a>
 				{%elif page.number == 2%}
 					<a href="/list{{type.id}}_1_{{pid}}/?desc={{desc}}">1</a>
-					<a href="#">2</a>
+					<a href="#" class="active">2</a>
 					<a href="/list{{type.id}}_3_{{pid}}/?desc={{desc}}">3</a>
 					<a href="/list{{type.id}}_4_{{pid}}/?desc={{desc}}">4</a>
 					<a href="/list{{type.id}}_5_{{pid}}/?desc={{desc}}">5</a>
@@ -63,18 +87,18 @@
 					<a href="/list{{type.id}}_{{page.number|add:-3}}_{{pid}}/?desc={{desc}}">{{page.number|add:-3}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:-2}}_{{pid}}/?desc={{desc}}">{{page.number|add:-2}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:-1}}_{{pid}}/?desc={{desc}}">{{page.number|add:-1}}</a>
-					<a href="#">{{page.number}}</a>
+					<a href="#" class="active">{{page.number}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:1}}_{{pid}}/?desc={{desc}}">{{page.number|add:1}}</a>
 				{%elif page.number == page.paginator.num_pages%}
 					<a href="/list{{type.id}}_{{page.number|add:-4}}_{{pid}}/?desc={{desc}}">{{page.number|add:-4}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:-3}}_{{pid}}/?desc={{desc}}">{{page.number|add:-3}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:-2}}_{{pid}}/?desc={{desc}}">{{page.number|add:-2}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:-1}}_{{pid}}/?desc={{desc}}">{{page.number|add:-1}}</a>
-					<a href="#">{{page.number}}</a>
+					<a href="#" class="active">{{page.number}}</a>
 				{%else%}
 					<a href="/list{{type.id}}_{{page.number|add:-2}}_{{pid}}/?desc={{desc}}">{{page.number|add:-2}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:-1}}_{{pid}}/?desc={{desc}}">{{page.number|add:-1}}</a>
-					<a href="#">{{page.number}}</a>
+					<a href="#" class="active">{{page.number}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:1}}_{{pid}}/?desc={{desc}}">{{page.number|add:1}}</a>
 					<a href="/list{{type.id}}_{{page.number|add:2}}_{{pid}}/?desc={{desc}}">{{page.number|add:2}}</a>
 				{%endif%}
